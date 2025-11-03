@@ -23,6 +23,7 @@ This is a Model Context Protocol (MCP) server built with the xmcp TypeScript fra
 ### Available Tools
 1. **greet** - Simple example tool that greets a user by name
 2. **get-server-info** - Returns comprehensive server information and capabilities
+3. **get-ai-hackernews** - Fetches latest AI-related articles from Hacker News via RSS (topics: AI, machine learning, GPT, LLMs)
 
 All tools include inline documentation with links to xmcp documentation.
 
@@ -33,6 +34,14 @@ All tools include inline documentation with links to xmcp documentation.
 - **Protocol**: HTTP transport
 
 ## Recent Changes
+
+### 2025-11-03: Added AI Hacker News RSS Tool
+- Created `get-ai-hackernews` tool to fetch latest AI-related articles from Hacker News
+- Integrates with hnrss.org service for filtered RSS feeds
+- Searches for AI, machine learning, GPT, LLM, and neural network topics
+- Supports configurable article limit (1-50) and minimum points filter
+- Returns both formatted text and structured data via MCP protocol
+- Installed `rss-parser` npm package for RSS feed parsing
 
 ### 2025-10-28: Optimized API Endpoints to Query MCP Server Directly
 - Refactored `/api/tools`, `/api/prompts`, and `/api/resources` to use MCP protocol

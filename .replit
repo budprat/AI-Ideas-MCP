@@ -29,6 +29,10 @@ externalPort = 3001
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 44541
+externalPort = 3000
+
 [workflows]
 runButton = "Project"
 
@@ -50,5 +54,5 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run dev"
+args = "npm start"
 waitForPort = 5000
