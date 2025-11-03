@@ -24,6 +24,7 @@ This is a Model Context Protocol (MCP) server built with the xmcp TypeScript fra
 1. **greet** - Simple example tool that greets a user by name
 2. **get-server-info** - Returns comprehensive server information and capabilities
 3. **get-ai-hackernews** - Fetches latest AI-related articles from Hacker News via RSS (topics: AI, machine learning, GPT, LLMs)
+4. **research-reddit-pain-points** - Analyzes Reddit discussions in specific subreddits to identify pain points and generate project ideas based on user complaints
 
 All tools include inline documentation with links to xmcp documentation.
 
@@ -34,6 +35,15 @@ All tools include inline documentation with links to xmcp documentation.
 - **Protocol**: HTTP transport
 
 ## Recent Changes
+
+### 2025-11-03: Added Reddit Pain Points Research Tool
+- Created `research-reddit-pain-points` tool for market research and ideation
+- Analyzes subreddit discussions to identify pain points and problems
+- Features keyword-based pain point detection (40+ frustration indicators)
+- Ranks findings by engagement score (upvotes + comments × 2)
+- Generates project ideas automatically from identified pain points
+- Uses Reddit RSS feeds (no authentication required)
+- **Note**: Reddit may block cloud/datacenter IPs; works best when MCP server runs locally
 
 ### 2025-11-03: Added AI Hacker News RSS Tool
 - Created `get-ai-hackernews` tool to fetch latest AI-related articles from Hacker News
