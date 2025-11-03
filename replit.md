@@ -1,285 +1,7 @@
 # xmcp MCP Server
 
 ## Overview
-This is a Model Context Protocol (MCP) server built with the xmcp TypeScript framework. It features a beautiful, minimalist homepage served from a static HTML file and API key authentication using the SESSION_SECRET environment variable.
-
-## Current Features
-
-### Beautiful Homepage
-- **Static HTML File**: Clean, minimalist design at `public/index.html`
-- **External CSS**: Styles separated into `public/styles.css` for easy customization
-- **Dynamic URL Generation**: JavaScript automatically detects domain and generates endpoint URL
-- **Copy-to-Clipboard**: Easy copying of MCP endpoint URL and configuration JSON
-- **Responsive Design**: Works on desktop and mobile devices
-- **Comprehensive Listings**: Shows all available tools, prompts, and resources with descriptions
-- **Documentation Links**: Direct links to xmcp docs for tools, prompts, and resources concepts
-- **API Endpoints**: Provides `/api/tools`, `/api/prompts`, and `/api/resources` for dynamic loading
-
-### Authentication
-- **API Key Authentication**: Enabled using `SESSION_SECRET` environment variable
-- All requests to `/mcp` endpoint require `x-api-key` header
-- Unauthorized requests receive a 401 error
-
-### Available Tools
-1. **greet** - Simple example tool that greets a user by name
-2. **get-server-info** - Returns comprehensive server information and capabilities
-3. **get-ai-hackernews** - Fetches latest AI-related articles from Hacker News via RSS (topics: AI, machine learning, GPT, LLMs)
-4. **research-reddit-pain-points** - Analyzes Reddit discussions to identify pain points (basic version)
-5. **research-reddit-pain-points-enhanced** - Advanced pain point analyzer with sentiment scoring, category detection, competitor tracking, urgency detection, price sensitivity analysis, and AI-powered project ideas
-
-All tools include inline documentation with links to xmcp documentation.
-
-### Server Architecture
-- **Express Server (Port 5000)**: Serves custom homepage and proxies MCP requests
-- **xmcp Server (Port 3000)**: Handles MCP protocol requests with authentication
-- **Endpoint**: `/mcp`
-- **Protocol**: HTTP transport
-
-## Recent Changes
-
-### 2025-11-03: Added Enhanced Reddit Pain Points Tool
-- Created `research-reddit-pain-points-enhanced` with advanced market research features
-- Added 150+ industry-specific keywords (AI content, AI products, DevOps, SaaS)
-- Implemented sentiment scoring (0-10 scale) to quantify pain intensity
-- Added category detection (11 categories: UX, Pricing, Performance, Features, etc.)
-- Implemented competitor tracking with regex pattern extraction
-- Created urgency detection (4 levels: low/medium/high/critical)
-- Added price sensitivity analysis for willingness to pay
-- Implemented skill-matched project ideas (Python, DevOps, Next.js, AI/ML)
-- Integrated AI-powered custom idea generation using GPT-4o-mini (optional)
-- Enhanced sorting algorithm: (Urgency × 10) + (Sentiment × 5) + Engagement
-- Lazy-loaded OpenAI to work without configuration (graceful fallback)
-- See ENHANCED_FEATURES.md for complete documentation
-
-### 2025-11-03: Created Local Setup Instructions
-- Added comprehensive LOCAL_SETUP.md guide for running server locally
-- Updated README.md with quick start instructions
-- Added local setup warning to homepage (public/index.html)
-- Documented Reddit IP blocking limitation and solutions
-- All documentation now guides users to run locally for Reddit tool
-
-### 2025-11-03: Fixed Reddit Tool RSS Parsing Bug
-- Fixed critical bug where engagement metrics weren't being extracted from RSS feeds
-- Changed from `item.content` to `item["content:encoded"]` with proper fallbacks
-- Default score changed from 0 to 1 to prevent all posts from being filtered
-- Added specific error handling for Reddit IP blocking with actionable guidance
-- Tool now works perfectly when run locally
-
-### 2025-11-03: Added Basic Reddit Pain Points Tool
-- Created `research-reddit-pain-points` tool for basic market research
-- Analyzes subreddit discussions to identify pain points
-- Features keyword-based detection (40+ frustration indicators)
-- Ranks by engagement score (upvotes + comments × 2)
-- Generates basic project ideas from pain points
-- Uses Reddit RSS feeds (no authentication required)
-- **Note**: Reddit blocks cloud/datacenter IPs; run locally for access
-
-### 2025-11-03: Added AI Hacker News RSS Tool
-- Created `get-ai-hackernews` tool to fetch latest AI-related articles from Hacker News
-- Integrates with hnrss.org service for filtered RSS feeds
-- Searches for AI, machine learning, GPT, LLM, and neural network topics
-- Supports configurable article limit (1-50) and minimum points filter
-- Returns both formatted text and structured data via MCP protocol
-- Installed `rss-parser` npm package for RSS feed parsing
-
-### 2025-10-28: Optimized API Endpoints to Query MCP Server Directly
-- Refactored `/api/tools`, `/api/prompts`, and `/api/resources` to use MCP protocol
-- API endpoints now query the running xmcp server instead of manually scanning files
-- Uses MCP JSON-RPC methods: `tools/list`, `prompts/list`, `resources/list`
-- Cleaner implementation that leverages the MCP server's built-in capabilities
-- Authenticates internal requests using SESSION_SECRET
-
-### 2025-10-28: Updated Branding & Documentation Links
-- Changed homepage title to "MCP on Replit" with inline Replit logo
-- Added Replit Docs link to documentation section
-- Enhanced visual branding with logo integration
-
-### 2025-10-28: Simplified Project Structure
-- Removed @mcp-ui/server dependency (not needed)
-- Simplified middleware.ts to only handle API key authentication
-- Simplified xmcp.config.ts to minimal necessary configuration
-- Cleaned up project to be a clean boilerplate template
-- Updated documentation to reflect simplified structure
-
-### 2025-10-28: Enhanced Examples & Documentation for LLM Agents
-- Updated all tools, prompts, and resources with comprehensive inline documentation
-- Added documentation links to xmcp.dev in all component files
-- Created better example tools: greet, get-server-info
-- Created better example prompts: review-code (enhanced)
-- Created better example resources: app-config, user-profile
-- Fixed alignment and spacing issues on homepage (section headers with docs links)
-- All components now include clear instructions for LLM coding agents
-
-### 2025-10-28: Enhanced Homepage with Prompts & Resources
-- Added prompts and resources listings to homepage
-- Created `/api/prompts` endpoint to dynamically load available prompts
-- Created `/api/resources` endpoint to recursively scan and list resources
-- Removed MCP UI links from documentation section
-- Homepage now displays complete server capabilities (tools, prompts, resources)
-
-### 2025-10-28: Clean Architecture & Static HTML
-- Moved homepage HTML to separate file (`public/index.html`)
-- Simplified server.js to focus on routing
-- Made URL generation dynamic using JavaScript
-- Configured proper port mapping (Express on 5000, xmcp on 3000)
-- Cleaned up project structure
-
-### 2025-10-27: Custom Homepage Implementation
-- Created Express wrapper to serve custom homepage at root URL
-- Implemented beautiful, minimalist design inspired by modern web aesthetics
-- Set up proxy to route /mcp requests to xmcp server
-- Maintained API key authentication for MCP endpoint
-- Configured dual-server architecture
-
-### 2025-10-27: Initial Setup
-- Configured API key authentication middleware using SESSION_SECRET
-- Created homepage tool with MCP UI integration
-- Set up production workflow
-
-## Project Architecture
-
-### File Structure
-```
-├── server.js                       # Express server (port 5000)
-├── public/
-│   ├── index.html                 # Homepage HTML
-│   └── styles.css                 # Homepage CSS
-├── src/
-│   ├── middleware.ts              # API key authentication
-│   ├── tools/
-│   │   ├── greet.ts                         # Example greeting tool
-│   │   ├── get-server-info.ts               # Server information tool
-│   │   ├── get-ai-hackernews.ts             # AI Hacker News RSS feed
-│   │   ├── research-reddit-pain-points.ts   # Basic Reddit pain point research
-│   │   └── research-reddit-pain-points-enhanced.ts  # Advanced pain point analyzer ⭐
-│   ├── prompts/
-│   │   └── review-code.ts         # Enhanced code review prompt
-│   └── resources/
-│       ├── (config)/
-│       │   └── app.ts             # App config resource
-│       └── (users)/
-│           └── [userId]/
-│               └── index.ts       # User profile resource
-├── xmcp.config.ts                 # xmcp server configuration (port 3000)
-├── package.json                   # Dependencies and scripts
-├── README.md                      # Project overview and quick start
-├── LOCAL_SETUP.md                 # Complete local installation guide
-├── QUICK_START.md                 # Quick start guide for enhanced tool ⭐
-└── ENHANCED_FEATURES.md           # Complete documentation of enhanced features ⭐
-```
-
-### Configuration Files
-- `server.js` - Express server serving homepage and proxying MCP requests
-- `public/index.html` - Static homepage HTML
-- `public/styles.css` - Separated CSS for easy customization
-- `xmcp.config.ts` - xmcp server configuration (simplified, minimal settings)
-- `package.json` - Dependencies and scripts
-- `tsconfig.json` - TypeScript configuration
-
-### How It Works
-
-1. **Express Server (Port 5000)**:
-   - Serves `public/index.html` at `/`
-   - Provides API endpoints: `/api/tools`, `/api/prompts`, `/api/resources`
-     - These endpoints query the xmcp server using MCP protocol internally
-     - Uses JSON-RPC methods: `tools/list`, `prompts/list`, `resources/list`
-   - Proxies all `/mcp` requests to xmcp server on port 3000
-   - Public-facing server
-
-2. **xmcp Server (Port 3000)**:
-   - Runs in background via `server.js`
-   - Handles MCP protocol requests
-   - Enforces API key authentication
-   - Auto-discovers tools, prompts, resources
-   - Responds to internal queries from Express API endpoints
-
-3. **Homepage (`public/index.html`)**:
-   - Pure HTML/CSS/JavaScript
-   - No server-side rendering needed
-   - JavaScript dynamically generates URLs based on `window.location.origin`
-   - Easy to customize and maintain
-
-## Connecting to This Server
-
-### 🏠 Running Locally (Recommended for Reddit Tool)
-The `research-reddit-pain-points` tool requires running on a non-datacenter IP. See **[LOCAL_SETUP.md](./LOCAL_SETUP.md)** for complete instructions on running this server locally.
-
-Quick start:
-```bash
-git clone <your-replit-url>
-cd <project-name>
-npm install
-export SESSION_SECRET="your-api-key"
-npm start
-```
-
-### From Web Browser
-Visit your Replit URL to see the beautiful homepage with:
-- MCP endpoint URL
-- Available tools with descriptions
-- Available prompts with descriptions
-- Available resources with descriptions
-- Configuration examples
-- Documentation links (xmcp and MCP Spec)
-
-### MCP Client Configuration
-Add this to your MCP client configuration file:
-
-```json
-{
-  "mcpServers": {
-    "my-replit-mcp-server": {
-      "url": "https://<your-replit-domain>/mcp",
-      "headers": {
-        "x-api-key": "<your-session-secret>"
-      }
-    }
-  }
-}
-```
-
-Replace `<your-replit-domain>` with your Replit development domain and `<your-session-secret>` with the SESSION_SECRET environment variable value.
-
-### Testing Locally
-```bash
-# Test homepage
-curl http://localhost:5000/
-
-# Test MCP endpoint
-curl -H "x-api-key: <your-session-secret>" \
-     -H "Content-Type: application/json" \
-     -H "Accept: application/json" \
-     -X POST http://localhost:5000/mcp \
-     -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
-```
-
-## Development
-
-### Running the Server
-```bash
-npm run dev       # Development mode with hot reload
-npm run build     # Build for production
-npm start         # Run production server (Express + xmcp)
-```
-
-### Adding New Tools
-1. Create a new file in `src/tools/`
-2. Export schema, metadata, and default handler function
-3. Run `npm run build`
-4. Restart the server
-5. Tool is automatically discovered and registered
-
-### Modifying the Homepage
-Edit `public/index.html` - no rebuild required! Just refresh the browser.
-
-### Adding Custom Routes
-Edit `server.js` and add routes before the `/mcp` proxy:
-
-```javascript
-app.get('/custom', (req, res) => {
-  res.json({ message: 'Custom route' });
-});
-```
+The xmcp MCP Server is a Model Context Protocol (MCP) server built with the xmcp TypeScript framework. It provides a platform for AI agents to interact with a suite of tools, prompts, and resources. The project features a minimalist, responsive homepage for user interaction and API key authentication for secure access. Its purpose is to facilitate efficient and secure communication between AI agents and diverse functionalities, serving as a core component for AI-powered applications.
 
 ## User Preferences
 - Clean, minimalist design aesthetic
@@ -288,31 +10,38 @@ app.get('/custom', (req, res) => {
 - MCP UI for interactive tool interfaces
 - Static files for easy customization
 
-## Technology Stack
+## System Architecture
+The system employs a dual-server architecture: an Express.js server (Port 5000) for public-facing interactions and an internal xmcp server (Port 3000) for handling MCP protocol requests.
+
+**UI/UX Decisions:**
+- **Homepage:** A static `public/index.html` with a clean, minimalist design and external `public/styles.css`. It features dynamic URL generation, copy-to-clipboard functionality, responsive design, comprehensive listings of tools, prompts, and resources with descriptions, and direct links to xmcp documentation.
+- **Branding:** Visual branding is enhanced with Replit logo integration and updated documentation links.
+
+**Technical Implementations:**
+- **API Key Authentication:** All requests to the `/mcp` endpoint require an `x-api-key` header, secured by the `SESSION_SECRET` environment variable.
+- **Dynamic API Endpoints:** `/api/tools`, `/api/prompts`, and `/api/resources` dynamically query the xmcp server using MCP JSON-RPC methods (`tools/list`, `prompts/list`, `resources/list`).
+- **Tooling:**
+    - `greet`: A simple example tool.
+    - `get-server-info`: Provides comprehensive server information.
+    - `get-ai-hackernews`: Fetches AI-related articles from Hacker News via RSS.
+    - `research-reddit-pain-points`: Analyzes Reddit discussions for pain points.
+    - `research-reddit-pain-points-enhanced`: An advanced version with sentiment scoring, category detection, competitor tracking, urgency detection, price sensitivity analysis, and AI-powered project ideas. All tools include inline documentation.
+- **Prompts:** Includes an enhanced `review-code` prompt.
+- **Resources:** Example resources like `app-config` and `user-profile`.
+
+**System Design Choices:**
+- **Express Server (Port 5000):** Serves the custom homepage and acts as a proxy, routing `/mcp` requests to the internal xmcp server. It also exposes API endpoints for dynamic content loading.
+- **xmcp Server (Port 3000):** Runs internally, handles MCP protocol requests, enforces API key authentication, and automatically discovers tools, prompts, and resources.
+- **Clean Architecture:** Simplified project structure focusing on a clean boilerplate.
+- **Static HTML/CSS/JS:** The homepage is pure static content, making it easy to customize and maintain without server-side rendering.
+
+## External Dependencies
 - **Framework**: xmcp (TypeScript MCP framework)
 - **Web Server**: Express.js
-- **Runtime**: Node.js 20+
+- **Runtime**: Node.js (20+)
 - **Protocol**: Model Context Protocol (MCP)
-- **UI**: MCP UI for interface resources
-- **Validation**: Zod for schema validation
-- **Proxy**: http-proxy-middleware for routing
-
-## Port Configuration
-- **Port 5000**: Express server (public-facing)
-  - Serves homepage at `/`
-  - Proxies `/mcp` to xmcp server
-- **Port 3000**: xmcp server (internal)
-  - Handles MCP protocol
-  - Requires authentication
-
-## Security Notes
-- API key authentication protects the MCP endpoint
-- SESSION_SECRET should be kept secure and never committed to version control
-- Homepage is publicly accessible (no auth required)
-- All connections should use HTTPS in production
-- MCP endpoint requires authentication for all operations
-
-## Links
-- [xmcp Documentation](https://xmcp.dev/docs)
-- [MCP Specification](https://modelcontextprotocol.io/)
-- [MCP UI](https://mcpui.dev/)
+- **UI**: MCP UI (for interface resources)
+- **Validation**: Zod (for schema validation)
+- **Proxy**: `http-proxy-middleware` (for routing)
+- **RSS Parsing**: `rss-parser` (used by `get-ai-hackernews`)
+- **AI/ML**: OpenAI (lazy-loaded for enhanced pain points analysis)
