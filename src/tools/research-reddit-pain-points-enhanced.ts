@@ -25,11 +25,23 @@ import { type InferSchema, type ToolMetadata } from "xmcp";
 import Parser from "rss-parser";
 import OpenAI from "openai";
 
-// Initialize OpenAI client with Replit AI Integrations
-const openai = new OpenAI({
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-});
+// Lazy-load OpenAI client only when AI generation is requested
+let openaiClient: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI | null {
+  if (!process.env.AI_INTEGRATIONS_OPENAI_BASE_URL || !process.env.AI_INTEGRATIONS_OPENAI_API_KEY) {
+    return null;
+  }
+  
+  if (!openaiClient) {
+    openaiClient = new OpenAI({
+      baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+    });
+  }
+  
+  return openaiClient;
+}
 
 interface RedditPost {
   title: string;
@@ -162,11 +174,11 @@ const URGENCY_PATTERNS = [
   /blocking us/i, /showstopper/i, /production down/i, /clients leaving/i,
 ];
 
-// Competitor switching signals
+// Competitor switching signals (improved to capture names with dots/hyphens)
 const COMPETITOR_PATTERNS = [
-  /switching from (\w+)/i, /migrating from (\w+)/i, /leaving (\w+)/i,
-  /ditching (\w+)/i, /(\w+) is terrible/i, /better than (\w+)/i,
-  /alternative to (\w+)/i, /replace (\w+)/i, /(\w+) doesn't work/i,
+  /switching from ([\w\.\-]+)/i, /migrating from ([\w\.\-]+)/i, /leaving ([\w\.\-]+)/i,
+  /ditching ([\w\.\-]+)/i, /([\w\.\-]+) is terrible/i, /better than ([\w\.\-]+)/i,
+  /alternative to ([\w\.\-]+)/i, /replace ([\w\.\-]+)/i, /([\w\.\-]+) doesn't work/i,
 ];
 
 // Price sensitivity patterns
@@ -355,6 +367,12 @@ function generateProjectIdea(problem: string, category: string, skills: string[]
 
 // ===== AI-POWERED IDEA GENERATION =====
 async function generateAIProjectIdea(problem: string, category: string, competitors: string[]): Promise<string> {
+  const openai = getOpenAIClient();
+  
+  if (!openai) {
+    return "AI generation unavailable (OpenAI not configured)";
+  }
+  
   try {
     const prompt = `You are a startup advisor. Analyze this pain point and suggest a specific, actionable product idea.
 
