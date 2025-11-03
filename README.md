@@ -31,9 +31,20 @@ npm start
 ## 🛠️ Available Tools
 
 1. **get-ai-hackernews** - Fetches AI-related articles from Hacker News via RSS
-2. **research-reddit-pain-points** - Analyzes Reddit discussions to find pain points and generate project ideas (local only)
-3. **get-server-info** - Returns server capabilities and information
-4. **greet** - Simple greeting example
+2. **research-reddit-pain-points** - Basic Reddit pain point analyzer (local only)
+3. **research-reddit-pain-points-enhanced** ⭐ **NEW!** - Advanced market research tool with:
+   - Sentiment scoring (0-10 scale for pain intensity)
+   - Category detection (UX, Pricing, Performance, etc.)
+   - Competitor tracking and switching signals
+   - Urgency detection (low/medium/high/critical)
+   - Price sensitivity analysis
+   - Skill-matched project ideas (Python, DevOps, Next.js, AI/ML)
+   - Optional AI-powered custom ideas via GPT-4o-mini
+   - Perfect for validating AI/tech product ideas!
+4. **get-server-info** - Returns server capabilities and information
+5. **greet** - Simple greeting example
+
+**Note:** Reddit tools work best when run locally (see LOCAL_SETUP.md)
 
 ## 🔌 Connecting Your MCP Client
 

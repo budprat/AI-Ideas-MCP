@@ -93,12 +93,12 @@ You should see a list of all available tools!
 
 **If you get a 401 error:** Make sure the `x-api-key` value matches your SESSION_SECRET exactly.
 
-## 🧪 Testing the Reddit Pain Points Tool
+## 🧪 Testing the Reddit Pain Points Tools
 
-Now that you're running locally, the Reddit tool will work:
+Now that you're running locally, the Reddit tools will work!
 
+### Basic Tool:
 ```bash
-# Replace "mySecretKey2024" with YOUR SESSION_SECRET value!
 curl -H "x-api-key: mySecretKey2024" \
      -H "Content-Type: application/json" \
      -X POST http://localhost:5000/mcp \
@@ -119,7 +119,67 @@ curl -H "x-api-key: mySecretKey2024" \
      }'
 ```
 
-This will return **real pain points** from r/SaaS with engagement scores and project ideas! 🎉
+### Enhanced Tool (⭐ Recommended):
+```bash
+curl -H "x-api-key: mySecretKey2024" \
+     -H "Content-Type: application/json" \
+     -X POST http://localhost:5000/mcp \
+     -d '{
+       "jsonrpc": "2.0",
+       "id": 1,
+       "method": "tools/call",
+       "params": {
+         "name": "research-reddit-pain-points-enhanced",
+         "arguments": {
+           "subreddit": "ChatGPT",
+           "timeRange": "month",
+           "limit": 50,
+           "sortBy": "top",
+           "minScore": 10,
+           "useAI": false
+         }
+       }
+     }'
+```
+
+**Enhanced tool returns:**
+- 😤 Sentiment scores (0-10 pain intensity)
+- 📁 Categories (UX, Pricing, Performance, etc.)
+- 🏢 Competitor mentions and switching signals
+- ⚡ Urgency levels (critical/high/medium/low)
+- 💰 Price sensitivity signals
+- 🛠️ Skill-matched project ideas
+- 🤖 Optional AI-generated custom ideas (`useAI: true`)
+
+### With AI-Powered Ideas (costs credits):
+```bash
+curl -H "x-api-key: mySecretKey2024" \
+     -H "Content-Type: application/json" \
+     -X POST http://localhost:5000/mcp \
+     -d '{
+       "jsonrpc": "2.0",
+       "id": 1,
+       "method": "tools/call",
+       "params": {
+         "name": "research-reddit-pain-points-enhanced",
+         "arguments": {
+           "subreddit": "devops",
+           "timeRange": "month",
+           "limit": 100,
+           "sortBy": "controversial",
+           "minScore": 20,
+           "useAI": true
+         }
+       }
+     }'
+```
+
+**Best subreddits for AI/tech validation:**
+- r/ChatGPT, r/OpenAI, r/StableDiffusion (AI content)
+- r/MachineLearning, r/MLOps (AI products)
+- r/SaaS, r/startups, r/entrepreneur (SaaS/business)
+- r/devops, r/kubernetes, r/docker (DevOps)
+- r/webdev, r/reactjs, r/node (Developer tools)
 
 ## 🔌 Connect Your MCP Client
 
@@ -162,7 +222,10 @@ When running locally, all tools work perfectly:
 1. **greet** - Simple greeting example
 2. **get-server-info** - Server capabilities and info
 3. **get-ai-hackernews** - Latest AI articles from Hacker News (works everywhere)
-4. **research-reddit-pain-points** - Reddit market research (works locally only)
+4. **research-reddit-pain-points** - Basic Reddit pain point analyzer (local only)
+5. **research-reddit-pain-points-enhanced** ⭐ - Advanced market research with sentiment scoring, category detection, competitor tracking, urgency detection, price analysis, and AI-powered ideas (local only)
+
+**See ENHANCED_FEATURES.md for complete details on the enhanced tool's capabilities!**
 
 ## ❓ Troubleshooting
 

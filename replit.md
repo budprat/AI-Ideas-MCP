@@ -37,6 +37,20 @@ All tools include inline documentation with links to xmcp documentation.
 
 ## Recent Changes
 
+### 2025-11-03: Added Enhanced Reddit Pain Points Tool
+- Created `research-reddit-pain-points-enhanced` with advanced market research features
+- Added 150+ industry-specific keywords (AI content, AI products, DevOps, SaaS)
+- Implemented sentiment scoring (0-10 scale) to quantify pain intensity
+- Added category detection (11 categories: UX, Pricing, Performance, Features, etc.)
+- Implemented competitor tracking with regex pattern extraction
+- Created urgency detection (4 levels: low/medium/high/critical)
+- Added price sensitivity analysis for willingness to pay
+- Implemented skill-matched project ideas (Python, DevOps, Next.js, AI/ML)
+- Integrated AI-powered custom idea generation using GPT-4o-mini (optional)
+- Enhanced sorting algorithm: (Urgency × 10) + (Sentiment × 5) + Engagement
+- Lazy-loaded OpenAI to work without configuration (graceful fallback)
+- See ENHANCED_FEATURES.md for complete documentation
+
 ### 2025-11-03: Created Local Setup Instructions
 - Added comprehensive LOCAL_SETUP.md guide for running server locally
 - Updated README.md with quick start instructions
@@ -51,14 +65,14 @@ All tools include inline documentation with links to xmcp documentation.
 - Added specific error handling for Reddit IP blocking with actionable guidance
 - Tool now works perfectly when run locally
 
-### 2025-11-03: Added Reddit Pain Points Research Tool
-- Created `research-reddit-pain-points` tool for market research and ideation
-- Analyzes subreddit discussions to identify pain points and problems
-- Features keyword-based pain point detection (40+ frustration indicators)
-- Ranks findings by engagement score (upvotes + comments × 2)
-- Generates project ideas automatically from identified pain points
+### 2025-11-03: Added Basic Reddit Pain Points Tool
+- Created `research-reddit-pain-points` tool for basic market research
+- Analyzes subreddit discussions to identify pain points
+- Features keyword-based detection (40+ frustration indicators)
+- Ranks by engagement score (upvotes + comments × 2)
+- Generates basic project ideas from pain points
 - Uses Reddit RSS feeds (no authentication required)
-- **Note**: Reddit may block cloud/datacenter IPs; works best when MCP server runs locally
+- **Note**: Reddit blocks cloud/datacenter IPs; run locally for access
 
 ### 2025-11-03: Added AI Hacker News RSS Tool
 - Created `get-ai-hackernews` tool to fetch latest AI-related articles from Hacker News
@@ -126,27 +140,32 @@ All tools include inline documentation with links to xmcp documentation.
 
 ### File Structure
 ```
-├── server.js              # Express server (port 5000)
+├── server.js                       # Express server (port 5000)
 ├── public/
-│   ├── index.html        # Homepage HTML
-│   └── styles.css        # Homepage CSS
+│   ├── index.html                 # Homepage HTML
+│   └── styles.css                 # Homepage CSS
 ├── src/
-│   ├── middleware.ts     # API key authentication
+│   ├── middleware.ts              # API key authentication
 │   ├── tools/
 │   │   ├── greet.ts                         # Example greeting tool
 │   │   ├── get-server-info.ts               # Server information tool
 │   │   ├── get-ai-hackernews.ts             # AI Hacker News RSS feed
-│   │   └── research-reddit-pain-points.ts   # Reddit pain point research (local only)
+│   │   ├── research-reddit-pain-points.ts   # Basic Reddit pain point research
+│   │   └── research-reddit-pain-points-enhanced.ts  # Advanced pain point analyzer ⭐
 │   ├── prompts/
-│   │   └── review-code.ts        # Enhanced code review prompt
+│   │   └── review-code.ts         # Enhanced code review prompt
 │   └── resources/
 │       ├── (config)/
-│       │   └── app.ts            # App config resource
+│       │   └── app.ts             # App config resource
 │       └── (users)/
 │           └── [userId]/
-│               └── index.ts      # User profile resource
-├── xmcp.config.ts        # xmcp server configuration (port 3000)
-└── package.json          # Dependencies and scripts
+│               └── index.ts       # User profile resource
+├── xmcp.config.ts                 # xmcp server configuration (port 3000)
+├── package.json                   # Dependencies and scripts
+├── README.md                      # Project overview and quick start
+├── LOCAL_SETUP.md                 # Complete local installation guide
+├── QUICK_START.md                 # Quick start guide for enhanced tool ⭐
+└── ENHANCED_FEATURES.md           # Complete documentation of enhanced features ⭐
 ```
 
 ### Configuration Files
