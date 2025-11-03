@@ -36,6 +36,20 @@ All tools include inline documentation with links to xmcp documentation.
 
 ## Recent Changes
 
+### 2025-11-03: Created Local Setup Instructions
+- Added comprehensive LOCAL_SETUP.md guide for running server locally
+- Updated README.md with quick start instructions
+- Added local setup warning to homepage (public/index.html)
+- Documented Reddit IP blocking limitation and solutions
+- All documentation now guides users to run locally for Reddit tool
+
+### 2025-11-03: Fixed Reddit Tool RSS Parsing Bug
+- Fixed critical bug where engagement metrics weren't being extracted from RSS feeds
+- Changed from `item.content` to `item["content:encoded"]` with proper fallbacks
+- Default score changed from 0 to 1 to prevent all posts from being filtered
+- Added specific error handling for Reddit IP blocking with actionable guidance
+- Tool now works perfectly when run locally
+
 ### 2025-11-03: Added Reddit Pain Points Research Tool
 - Created `research-reddit-pain-points` tool for market research and ideation
 - Analyzes subreddit discussions to identify pain points and problems
@@ -76,8 +90,8 @@ All tools include inline documentation with links to xmcp documentation.
 - Updated all tools, prompts, and resources with comprehensive inline documentation
 - Added documentation links to xmcp.dev in all component files
 - Created better example tools: greet, get-server-info
-- Created better example prompts: review-code (enhanced), generate-docs, debug-error
-- Created better example resources: app-config, user-profile, project-structure
+- Created better example prompts: review-code (enhanced)
+- Created better example resources: app-config, user-profile
 - Fixed alignment and spacing issues on homepage (section headers with docs links)
 - All components now include clear instructions for LLM coding agents
 
@@ -118,20 +132,18 @@ All tools include inline documentation with links to xmcp documentation.
 ├── src/
 │   ├── middleware.ts     # API key authentication
 │   ├── tools/
-│   │   ├── greet.ts              # Example greeting tool
-│   │   └── get-server-info.ts   # Server information tool
+│   │   ├── greet.ts                         # Example greeting tool
+│   │   ├── get-server-info.ts               # Server information tool
+│   │   ├── get-ai-hackernews.ts             # AI Hacker News RSS feed
+│   │   └── research-reddit-pain-points.ts   # Reddit pain point research (local only)
 │   ├── prompts/
-│   │   ├── review-code.ts        # Enhanced code review prompt
-│   │   ├── generate-docs.ts      # Documentation generation prompt
-│   │   └── debug-error.ts        # Error debugging prompt
+│   │   └── review-code.ts        # Enhanced code review prompt
 │   └── resources/
 │       ├── (config)/
 │       │   └── app.ts            # App config resource
-│       ├── (users)/
-│       │   └── [userId]/
-│       │       └── index.ts      # User profile resource
-│       └── (docs)/
-│           └── structure.ts      # Project structure resource
+│       └── (users)/
+│           └── [userId]/
+│               └── index.ts      # User profile resource
 ├── xmcp.config.ts        # xmcp server configuration (port 3000)
 └── package.json          # Dependencies and scripts
 ```
@@ -168,6 +180,18 @@ All tools include inline documentation with links to xmcp documentation.
    - Easy to customize and maintain
 
 ## Connecting to This Server
+
+### 🏠 Running Locally (Recommended for Reddit Tool)
+The `research-reddit-pain-points` tool requires running on a non-datacenter IP. See **[LOCAL_SETUP.md](./LOCAL_SETUP.md)** for complete instructions on running this server locally.
+
+Quick start:
+```bash
+git clone <your-replit-url>
+cd <project-name>
+npm install
+export SESSION_SECRET="your-api-key"
+npm start
+```
 
 ### From Web Browser
 Visit your Replit URL to see the beautiful homepage with:

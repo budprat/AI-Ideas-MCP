@@ -1,14 +1,41 @@
 # MCP Server on Replit
 
-A Model Context Protocol (MCP) server built with xmcp, featuring a beautiful homepage and API key authentication.
+A Model Context Protocol (MCP) server built with [xmcp](https://xmcp.dev), featuring tools for AI/developer workflows including Hacker News RSS feeds and Reddit pain point research.
 
-## Getting Started
+## 🚀 Getting Started
 
-1. **Click Run** - Start the server
-2. **Prompt Agent for Functionality** - Ask the AI agent to add tools, prompts, or resources
-3. **Test Changes** - View your changes on the homepage, use a tool like the [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) to test changes
-4. **Click Deploy** - Publish your server to production. Settings will be pre-configured
-5. **Connect** - Connect to your server with the dev command on the homepage. Servers have API key auth with the `SESSION_SECRET` value as the key—access it from secrets.
+### Running on Replit
+1. **Set SESSION_SECRET** - Add `SESSION_SECRET` to your Replit Secrets (use any random string)
+2. **Click Run** - Start the server
+3. **View Homepage** - See all available tools, prompts, and resources
+4. **Connect Your MCP Client** - Use the configuration shown on the homepage (use your SESSION_SECRET value)
+
+**⚠️ Note:** The Reddit research tool won't work on Replit due to IP blocking.
+
+### Running Locally (Recommended)
+For full functionality including Reddit pain point research:
+
+**📖 See [LOCAL_SETUP.md](./LOCAL_SETUP.md) for complete instructions**
+
+Quick start:
+```bash
+git clone <your-replit-url>  # Replace with your actual Replit URL
+cd <project-name>             # Replace with your folder name
+npm install
+export SESSION_SECRET="mySecretKey2024"  # Replace with your own secret key
+npm start
+```
+
+**Important:** Use the same SESSION_SECRET value when connecting your MCP client!
+
+## 🛠️ Available Tools
+
+1. **get-ai-hackernews** - Fetches AI-related articles from Hacker News via RSS
+2. **research-reddit-pain-points** - Analyzes Reddit discussions to find pain points and generate project ideas (local only)
+3. **get-server-info** - Returns server capabilities and information
+4. **greet** - Simple greeting example
+
+## 🔌 Connecting Your MCP Client
 
 ```json
 {
@@ -25,15 +52,35 @@ A Model Context Protocol (MCP) server built with xmcp, featuring a beautiful hom
 
 That's it! Your MCP server is ready to use.
 
-## What You Get
+## 📝 What You Get
 
-- Custom homepage displaying all your tools, prompts, and resources
-- API key authentication for secure access
-- MCP protocol endpoint at `/mcp`
-- Easy-to-extend architecture
+- ✅ Beautiful custom homepage with tool listings
+- ✅ API key authentication (via `SESSION_SECRET`)
+- ✅ AI Hacker News RSS feeds
+- ✅ Reddit pain point research (when run locally)
+- ✅ Auto-discovered tools, prompts, and resources
+- ✅ MCP protocol endpoint at `/mcp`
 
-## Documentation
+## 🏗️ Development
 
+```bash
+npm run dev      # Development with hot-reload
+npm run build    # Build for production
+npm start        # Run production server
+```
+
+### Adding New Tools
+1. Create a file in `src/tools/`
+2. Run `npm run build`
+3. Tool is auto-discovered and registered
+
+## 📚 Documentation
+
+- **Full Documentation**: [replit.md](./replit.md)
+- **Local Setup Guide**: [LOCAL_SETUP.md](./LOCAL_SETUP.md)
 - [xmcp Documentation](https://xmcp.dev/docs)
 - [MCP Specification](https://modelcontextprotocol.io/)
-- [Replit Docs](https://docs.replit.com)
+
+---
+
+Built with ❤️ using [xmcp](https://xmcp.dev) on [Replit](https://replit.com)

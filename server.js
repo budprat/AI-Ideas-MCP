@@ -38,6 +38,11 @@ setTimeout(() => {
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
+  
+  // Serve LOCAL_SETUP.md as downloadable file
+  app.get('/local-setup', (req, res) => {
+    res.sendFile(path.join(__dirname, 'LOCAL_SETUP.md'));
+  });
 
   // Helper function to query the MCP server
   async function queryMCP(method) {
